@@ -1,0 +1,25 @@
+int ledPin = 9; //Valor del pin del led en una variable
+boolean estadoLed = false; //Variable booleana para encender ya apagar led
+
+void setup() {
+   Serial.begin(9600); //Comunica el arduino con la computadora con velocidad de comunicación serial de 9600
+   pinMode(ledPin, OUTPUT); // Configura el pin especificado para que se comporte como entrada o salida
+   digitalWrite(ledPin,estadoLed);
+   pinMode(LED_BUILTIN, OUTPUT);
+}
+
+void loop() {  //Este ciclo es donde se trabaja la programación del led
+ 
+   digitalWrite(LED_BUILTIN, HIGH);   // turn the LED on (HIGH is the voltage level) // permite escribir valores lógicos digitales en un pin de Salida de una tarjeta Arduino
+   delay(200);                       // Son los segundos que tardara el led encendido
+   digitalWrite(LED_BUILTIN, LOW);    // turn the LED off by making the voltage LOW
+   delay(00);                       // Son los segundos que tardara el led apagado
+
+   if (Serial.available()){
+     char Letra = Serial.read();
+            if (Letra== 'a'){
+                  estadoLed= !estadoLed;
+               }
+             digitalWrite(ledPin,estadoLed);
+            }
+ }
