@@ -1,0 +1,36 @@
+import processing.serial.*;
+boolean estadoBoton = false; //Declara la variable con valor True o False 
+Serial miSerial;   //Se coloca la comunicación serial
+color colorEncendido = color(0, 200, 0); //Se colocó que color tendrá la ellipse                       cuando el led este encendido 
+color  colorApagado= color(200, 0, 0); //Se colocó que color tendrá la ellipse                       cuando el led este apagado
+float distancia;
+float val;      //Estos datos son los recibidos en la comunicación serial
+
+void setup() {
+  size(400, 600);
+  String nombrePuerto = "COM5"; //Se coloca el nombre del puerto en el cual se conectó el arduino.
+  miSerial = new Serial(this, nombrePuerto, 9600); //Comunica con el puerto 
+}
+
+void draw() {
+  if ( miSerial.available() > 0) {  // Si los datos están disponibles
+    val = miSerial.read();         //lee lo que está contenido con la variable.
+  }
+  background(255);
+  if (estadoBoton) {     //Aquí coloca el color de los botones junto con encender y apagar el led.
+    fill(colorApagado);
+  } else {
+    fill(colorEncendido);
+  }
+  ellipse(200,200,350,350);
+}
+
+void mouseClicked() {  //Determina la distancia en la que el botón tendrá comunicación  al dar click.
+ println(mouseX,mouseY);
+ distancia = dist(200,200,mouseX,mouseY);
+ println(distancia);
+ if (distancia<175){
+     estadoBoton = !estadoBoton;
+     miSerial.write('a');
+   }
+}
